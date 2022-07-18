@@ -9,7 +9,10 @@ app.use(bodyParser.json());
 app.use(splitPayment);
 
 app.get('/', (req, res) => {
-	res.send('welcome');
+	res.status(200).send({
+		status: true,
+		message: 'welcome on board',
+	});
 });
 
 app.listen(port, () => {

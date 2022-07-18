@@ -5,8 +5,10 @@ const bodyParser = require('body-parser');
 const displayRoutes = require('express-routemap');
 const port = process.env.PORT || 8100;
 const splitPayment = require('./routes/Payment.Routes');
+const responseTime = require('./response-time');
 app.use(bodyParser.json());
 app.use(splitPayment);
+app.use(responseTime);
 
 app.get('/', (req, res) => {
 	res.status(200).send({

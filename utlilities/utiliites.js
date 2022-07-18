@@ -11,5 +11,5 @@ function pushResult(id, amt) {
 		Amount: amt,
 	});
 }
-f
+
 // module.exports = { splitArr, pushResult };

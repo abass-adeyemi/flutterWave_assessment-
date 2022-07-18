@@ -22,7 +22,7 @@ const splitPayment = (req, res) => {
 	let percentageArray = [];
 	let ratioArray = [];
 
-	// seprating into different arrays
+	
 	SplitInfo.map((item) => {
 		if (item.SplitType === 'FLAT') {
 			flatArray.push(item);

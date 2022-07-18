@@ -15,10 +15,23 @@ const splitPayment = (req, res) => {
 
 	let ratioSum = 0;
 
-	let flatArray = splitArr('FLAT');
-	let percentageArray = splitArr('PERCENTAGE');
-	let ratioArray = splitArr('RATIO');
+	// let flatArray = splitArr('FLAT');
+	// let percentageArray = splitArr('PERCENTAGE');
+	// let ratioArray = splitArr('RATIO');
+	let flatArray = [];
+	let percentageArray = [];
+	let ratioArray = [];
 
+	// seprating into different arrays
+	SplitInfo.map((item) => {
+		if (item.SplitType === 'FLAT') {
+			flatArray.push(item);
+		} else if (item.SplitType === 'PERCENTAGE') {
+			percentageArray.push(item);
+		} else {
+			ratioArray.push(item);
+		}
+	});
 	//compute balance  logic
 	flatArray.map((item) => {
 		balance -= item.SplitValue;
@@ -27,8 +40,8 @@ const splitPayment = (req, res) => {
 	// percentage calculation
 	percentageArray.map((item) => {
 		let deduction = item.SplitValue * 0.01 * balance;
-		if (deduction > Amount)
-			throw Error('Cannot be less than transaction Amount');
+		// if (deduction > Amount)
+		// 	throw Error('Cannot be less than transaction Amount');
 		balance -= deduction;
 		pushResult(item.SplitEntityId, deduction);
 	});
@@ -50,12 +63,24 @@ const splitPayment = (req, res) => {
 	});
 
 	//breaks *** by split types
-	function splitArr(type) {
-		let result = SplitInfo.filter((entity) => {
-			return entity.SplitType == type;
-		});
-		return result;
-	}
+	// function splitArr(type) {
+	// 	let result = SplitInfo.filter((entity) => {
+	// 		return entity.SplitType == type;
+	// 	});
+	// 	return result;
+	// }
+	// go through the array
+	// and select the diffenet Split type into the difeernet unqie array
+	//
+
+	// function splitArr(type) {
+	// 	let result = SplitInfo.map(
+
+	// 		(entity) => {
+	// 		return entity.SplitType == type;
+	// 	});
+	// 	return result;
+	// }
 	function pushResult(id, amt) {
 		SplitBreakdown.push({
 			SplitEntityId: id,

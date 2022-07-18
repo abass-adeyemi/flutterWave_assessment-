@@ -22,21 +22,24 @@ const splitPayment = (req, res) => {
 	let percentageArray = [];
 	let ratioArray = [];
 
-	
 	SplitInfo.map((item) => {
 		if (item.SplitType === 'FLAT') {
-			flatArray.push(item);
+			// flatArray.push(item)
+			balance -= item.SplitValue;
+			pushResult(item.SplitEntityId, item.SplitValue);
 		} else if (item.SplitType === 'PERCENTAGE') {
 			percentageArray.push(item);
 		} else {
 			ratioArray.push(item);
+			ratioSum += item.SplitValue;
 		}
 	});
 	//compute balance  logic
-	flatArray.map((item) => {
-		balance -= item.SplitValue;
-		pushResult(item.SplitEntityId, item.SplitValue);
-	});
+	// flatArray.map((item) => {
+	// 	balance -= item.SplitValue;
+	// 	pushResult(item.SplitEntityId, item.SplitValue);
+	// });
+
 	// percentage calculation
 	percentageArray.map((item) => {
 		let deduction = item.SplitValue * 0.01 * balance;
@@ -47,7 +50,7 @@ const splitPayment = (req, res) => {
 	});
 	//ratio calculation
 	let openingRatioBalance = balance;
-	ratioArray.map((item) => (ratioSum += item.SplitValue));
+	// ratioArray.map((item) => (ratioSum += item.SplitValue));
 
 	ratioArray.map((item) => {
 		let deduction = openingRatioBalance * (item.SplitValue / ratioSum);
